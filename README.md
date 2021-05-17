@@ -33,5 +33,5 @@ Then in the console:
 ```js
 pha = await PHAToken.deployed()
 UNIT = new web3.utils.BN('1000000000000000000')
-await pha.approve('0x941f40c2955ee09ba638409f67ef27c531fc055c', UNIT.muln(10000))
+await pha.approve('0x1E860B41498BFFbe50106114b55c0E76Ff02c559', UNIT.muln(10000))
 ```

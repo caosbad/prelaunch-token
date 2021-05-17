@@ -1,4 +1,4 @@
-const network = 'mainnet';
+const network = 'rinkeby';
 const constants = {
     mainnet: {
         etherscanBase: 'https://etherscan.io',
@@ -7,7 +7,11 @@ const constants = {
     kovan: {
         etherscanBase: 'https://kovan.etherscan.io',
         airdropAddress: '0xbb68B9012Ef613435BEF6246201F176406963e75'
-    }
+    },
+    rinkeby: {
+      etherscanBase: 'https://rinkeby.etherscan.io',
+      airdropAddress: '0x1E860B41498BFFbe50106114b55c0E76Ff02c559'
+  }
 };
 
 function loadMerkleAirdropContract(web3) {

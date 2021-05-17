@@ -134,6 +134,7 @@ function App() {
       } catch (err) {
         setState('error');
         setOtherError(`Error: ${err.message}. Please refresh or try with another network connection.`);
+        console.log(err, '========================')
         throw err;
       }
     }

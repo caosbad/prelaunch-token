@@ -20,8 +20,8 @@
 
 require('dotenv').config()
 
-const HDWalletProvider = require("@truffle/hdwallet-provider");
-const TrezorProvider = require("@phala/trezor-provider");
+const HDWalletProvider = require('@truffle/hdwallet-provider')
+const TrezorProvider = require('@phala/trezor-provider')
 const keys = {
   api: process.env.INFURA,
   kovan: process.env.KOVAN_KEY,
@@ -46,73 +46,78 @@ module.exports = {
     // options below to some value.
     //
     development: {
-     host: "127.0.0.1",     // Localhost (default: none)
-     port: 7545,            // Standard Ethereum port (default: none)
-     network_id: "*",       // Any network (default: none)
-     gasPrice: 150 * 1e9    // 150 Gwei
+      host: '127.0.0.1', // Localhost (default: none)
+      port: 7545, // Standard Ethereum port (default: none)
+      network_id: '*', // Any network (default: none)
+      gasPrice: 150 * 1e9, // 150 Gwei
+    },
+    rinkeby: {
+      provider: () => new HDWalletProvider(keys.kovan, `https://rinkeby.infura.io/v3/${keys.api}`),
+      network_id: 4, // Ropsten's id
+      gas: 5500000, // Ropsten has a lower block limit than mainnet
+      gasPrice: 20000000000, // https://ropsten.etherscan.io/chart/gasprice
+      confirmations: 0, // # of confs to wait between deployments. (default: 0)
+      timeoutBlocks: 10, // # of blocks before a deployment times out  (minimum/default: 50)
+      skipDryRun: true, // Skip dry run before migrations? (default: false for public nets )
+      networkCheckTimeout: 30000,
     },
 
     // Another network with more advanced options...
     // advanced: {
-      // port: 8777,             // Custom port
-      // network_id: 1342,       // Custom network
-      // gas: 8500000,           // Gas sent with each transaction (default: ~6700000)
-      // gasPrice: 20000000000,  // 20 gwei (in wei) (default: 100 gwei)
-      // from: <address>,        // Account to send txs from (default: accounts[0])
-      // websockets: true        // Enable EventEmitter interface for web3 (default: false)
+    // port: 8777,             // Custom port
+    // network_id: 1342,       // Custom network
+    // gas: 8500000,           // Gas sent with each transaction (default: ~6700000)
+    // gasPrice: 20000000000,  // 20 gwei (in wei) (default: 100 gwei)
+    // from: <address>,        // Account to send txs from (default: accounts[0])
+    // websockets: true        // Enable EventEmitter interface for web3 (default: false)
     // },
 
     // Useful for deploying to a public network.
     // NB: It's important to wrap the provider as a function.
     ropsten: {
-      provider: () => new TrezorProvider(
-        `https://ropsten.infura.io/v3/${keys.api}`,
-        3, "m/44'/1'/0'/0/0"
-      ),
-      network_id: 3,       // Ropsten's id
-      gas: 5500000,        // Ropsten has a lower block limit than mainnet
+      provider: () => new HDWalletProvider(keys.kovan, `https://ropsten.infura.io/v3/${keys.api}`),
+      network_id: 3, // Ropsten's id
+      gas: 5500000, // Ropsten has a lower block limit than mainnet
       gasPrice: 20000000000, // https://ropsten.etherscan.io/chart/gasprice
-      confirmations: 0,    // # of confs to wait between deployments. (default: 0)
-      timeoutBlocks: 10,  // # of blocks before a deployment times out  (minimum/default: 50)
-      skipDryRun: true,     // Skip dry run before migrations? (default: false for public nets )
-      networkCheckTimeout: 30000
+      confirmations: 0, // # of confs to wait between deployments. (default: 0)
+      timeoutBlocks: 10, // # of blocks before a deployment times out  (minimum/default: 50)
+      skipDryRun: true, // Skip dry run before migrations? (default: false for public nets )
+      networkCheckTimeout: 30000,
     },
 
     // Useful for deploying to a public network.
     // NB: It's important to wrap the provider as a function.
     kovan: {
-      provider: () => new HDWalletProvider(
-        keys.kovan,
-        `https://kovan.infura.io/v3/${keys.api}`,
-      ),
-      network_id: 42,       // Kovan's id
+      provider: () => new HDWalletProvider(keys.kovan, `https://kovan.infura.io/v3/${keys.api}`),
+      networkCheckTimeout: 30000,
+      network_id: 42, // Kovan's id
       gas: 5500000,
       gasPrice: 40000000000, // https://kovan.etherscan.io/chart/gasprice
-      confirmations: 0,    // # of confs to wait between deployments. (default: 0)
-      timeoutBlocks: 10,  // # of blocks before a deployment times out  (minimum/default: 50)
-      skipDryRun: true     // Skip dry run before migrations? (default: false for public nets )
+      confirmations: 0, // # of confs to wait between deployments. (default: 0)
+      timeoutBlocks: 10, // # of blocks before a deployment times out  (minimum/default: 50)
+      skipDryRun: true, // Skip dry run before migrations? (default: false for public nets )
     },
 
     // Useful for private networks
     // private: {
-      // provider: () => new HDWalletProvider(mnemonic, `https://network.io`),
-      // network_id: 2111,   // This network is yours, in the cloud.
-      // production: true    // Treats this network as if it was a public net. (default: false)
+    // provider: () => new HDWalletProvider(mnemonic, `https://network.io`),
+    // network_id: 2111,   // This network is yours, in the cloud.
+    // production: true    // Treats this network as if it was a public net. (default: false)
     // }
 
-    mainnet: {
-      provider: () => new TrezorProvider(
-        `https://mainnet.infura.io/v3/${keys.api}`,
-        1, "m/44'/60'/0'/0/5"
-      ),
-      network_id: 1,         // Mainnet's id
-      gas: 70000,            // A tight gas limit, original 5500000
-      gasPrice: 130_000_000_000,  // 130 Gwei
-      confirmations: 0,      // # of confs to wait between deployments. (default: 0)
-      timeoutBlocks: 100,    // # of blocks before a deployment times out  (minimum/default: 50)
-      skipDryRun: true,      // Skip dry run before migrations? (default: false for public nets )
-      networkCheckTimeout: 30000
-    }
+    // mainnet: {
+    //   provider: () => new TrezorProvider(
+    //     `https://mainnet.infura.io/v3/${keys.api}`,
+    //     1, "m/44'/60'/0'/0/5"
+    //   ),
+    //   network_id: 1,         // Mainnet's id
+    //   gas: 70000,            // A tight gas limit, original 5500000
+    //   gasPrice: 130_000_000_000,  // 130 Gwei
+    //   confirmations: 0,      // # of confs to wait between deployments. (default: 0)
+    //   timeoutBlocks: 100,    // # of blocks before a deployment times out  (minimum/default: 50)
+    //   skipDryRun: true,      // Skip dry run before migrations? (default: false for public nets )
+    //   networkCheckTimeout: 30000
+    // }
   },
 
   // Set default mocha options here, use special reporters etc.
@@ -126,19 +131,18 @@ module.exports = {
       // version: "0.5.1",    // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       //  evmVersion: "byzantium"
-      settings: {          // See the solidity docs for advice about optimization and evmVersion
-       optimizer: {
-         enabled: true,
-         runs: 1
-       },
-      }
-    }
+      settings: {
+        // See the solidity docs for advice about optimization and evmVersion
+        optimizer: {
+          enabled: true,
+          runs: 1,
+        },
+      },
+    },
   },
 
-  plugins: [
-    'truffle-plugin-verify'
-  ],
+  plugins: ['truffle-plugin-verify'],
   api_keys: {
-    etherscan: keys.etherscan
-  }
+    etherscan: keys.etherscan,
+  },
 }
